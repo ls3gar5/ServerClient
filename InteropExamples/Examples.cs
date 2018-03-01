@@ -16,7 +16,7 @@ namespace InteropExamples
         public string NumeroSuscriptor { get; set; }
         public string DatosPC { get; set; }
 
-        private const string URLASPZERO = "http://192.168.13.78:22742/api/services/app/RelevamientoDIService/SincronizacionRelevamiento"
+        private const string URLASPZERO = "http://192.168.13.78:22742/api/services/app/RelevamientoDIService/SincronizacionRelevamiento";
 
         public string HelloWorld(string name)
         {
