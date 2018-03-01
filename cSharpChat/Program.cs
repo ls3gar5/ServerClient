@@ -15,21 +15,20 @@ namespace cSharpChat
 
             var server = new OSCoreServer();
 
-            string serverInfo = server.Startup();
-            Console.WriteLine("Server started at:" + serverInfo);
+            //string serverInfo = server.Startup();
+            //Console.WriteLine("Server started at:" + serverInfo);
 
-            serverInfo = server.Listen();
-            Console.WriteLine(serverInfo);
+            //serverInfo = server.Listen();
+            //Console.WriteLine(serverInfo);
 
             string datatosend = Console.ReadLine();
             server.SendData(datatosend);
 
-            serverInfo = server.ReceiveData();
-            Console.WriteLine(serverInfo);
+            //serverInfo = server.ReceiveData();
+            //Console.WriteLine(serverInfo);
 
             Console.ReadLine();
-            //exit 
-            ;
+            
         }
     }
 }

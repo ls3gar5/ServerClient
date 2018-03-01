@@ -25,6 +25,9 @@ namespace cSharpChat
 
         public string Startup()
         {
+            //Dns.GetHostName()
+            //Dns.GetHostAddresses(Environment.MachineName) 
+
             //The chat server always starts up on the localhost, using the default port 
             IPHostEntry hostInfo = Dns.GetHostEntry(DEFAULT_SERVER);
             IPAddress serverAddr = hostInfo.AddressList.First(f=>f.AddressFamily != AddressFamily.InterNetworkV6);
@@ -75,6 +78,17 @@ namespace cSharpChat
 
             byte[] byData = Encoding.ASCII.GetBytes(textData);
             clientSocket.Send(byData);
+
+            byData = Encoding.ASCII.GetBytes("Lololo");
+            clientSocket.Send(byData);
+
+            byData = Encoding.ASCII.GetBytes("AAAAA");
+            clientSocket.Send(byData);
+
+            byData = Encoding.ASCII.GetBytes("NNNNN");
+            clientSocket.Send(byData);
+
+
             clientSocket.Close();
 
             return false;
