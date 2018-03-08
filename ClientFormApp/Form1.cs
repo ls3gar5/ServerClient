@@ -125,8 +125,17 @@ namespace ClientFormApp
         private void Form1_Load(object sender, EventArgs e)
         {
             var pp = new Examples();
-            pp.Path_Server = @"Z:\";
+            ///Opciones \\WIN7PROX64\HolistorW
+            ///Y:\Whapp (referencia con el nombre de la pc)
+            ///Z:\Whapp (referencia con )
+            pp.Path_Server = @"Z:\Whapp";
+            pp.finalizo += Pp_finalizo;
             pp.RunService();
+        }
+
+        private void Pp_finalizo(bool lExito)
+        {
+            var pp = "";
         }
     }
 }

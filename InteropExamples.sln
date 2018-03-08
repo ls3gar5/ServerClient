@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientFormApp", "ClientForm
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientConsoleM", "ClientConsoleM\ClientConsoleM.csproj", "{86F77473-00E0-4A35-9157-A1F2D6AD0F1E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Time_Client", "Time_Client\Time_Client.csproj", "{37F53D38-3934-4FDC-B367-72612A797FAE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{86F77473-00E0-4A35-9157-A1F2D6AD0F1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86F77473-00E0-4A35-9157-A1F2D6AD0F1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86F77473-00E0-4A35-9157-A1F2D6AD0F1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37F53D38-3934-4FDC-B367-72612A797FAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37F53D38-3934-4FDC-B367-72612A797FAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37F53D38-3934-4FDC-B367-72612A797FAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37F53D38-3934-4FDC-B367-72612A797FAE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
