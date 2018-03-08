@@ -78,5 +78,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\InteropExamples\InteropExamples.csproj">
+      <Project>{8248df48-992e-4b48-bea0-35b2cb77c1b4}</Project>
+      <Name>InteropExamples</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

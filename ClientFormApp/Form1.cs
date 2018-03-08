@@ -9,6 +9,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using InteropExamples;
 
 namespace ClientFormApp
 {
@@ -119,6 +120,13 @@ namespace ClientFormApp
                 tbStatus.Text = "Se cerro la conexión";
             }
             catch (Exception exc) { MessageBox.Show(exc.ToString()); }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            var pp = new Examples();
+            pp.Path_Server = @"Z:\";
+            pp.RunService();
         }
     }
 }
