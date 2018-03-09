@@ -4,6 +4,7 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Text;
 using System.Linq;
+using InteropExamples;
 
 // State object for receiving data from remote device.  
 public class StateObject
@@ -185,9 +186,31 @@ public class AsynchronousClient
         }
     }
 
-    public static int Main(String[] args)
+    static Examples client = new Examples();
+
+    
+    public static void Main(String[] args)
     {
-        StartClient();
-        return 0;
+        //StartClient();
+        //return 0;
+
+
+        ///Opciones \\WIN7PROX64\HolistorW
+        ///Y:\Whapp (referencia con el nombre de la pc)
+        ///Z:\Whapp (referencia con )
+        client.Path_Server = @"\\DESA01\";
+        client.finalizo += Pp_finalizo;
+        client.RunService();
+    }
+
+    private static void Pp_finalizo(bool lExito)
+    {
+        if (client.Errores.tieneError)
+        {
+            var mensajes = client.Errores.MensajesError;
+        }
+
+        var msg = client.Respuesta.MensajeConexion;
+        var msg2 = client.Respuesta.MensajeServidor;
     }
 }

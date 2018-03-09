@@ -25,7 +25,7 @@ namespace InteropExamples
         private const string URLASPZERO = "http://192.168.13.78:22742/api/services/app/RelevamientoDIService/SincronizacionRelevamiento";
 
         // Receiving byte array  
-        byte[] bytes = new byte[1024];
+        
         Socket senderSock;
         
         const int DEFAULT_PORT = 804;
@@ -100,8 +100,7 @@ namespace InteropExamples
                 Connet();
                 //3- Envio del mensaje 
                 Send();
-                //4- Liberar la conexión
-                Disconnect();
+               
                 //5- Todo Ok
                 if (Mensajes.Count>0)
                 {
@@ -196,8 +195,6 @@ namespace InteropExamples
                 //<Client Quit> is the sign for end of data 
                 string theMessageToSend = messageJWT + "<Client Quit>";
                 byte[] msg = Encoding.Unicode.GetBytes(theMessageToSend);
-
-                // Sends data to a connected Socket. 
                 int bytesSend = senderSock.Send(msg);
 
                 Respuesta.MensajeServidor = ReceiveDataFromServer();
@@ -210,18 +207,24 @@ namespace InteropExamples
         {
             try
             {
+                byte[] bytes = new byte[1024];
                 // Receives data from a bound Socket. 
                 int bytesRec = senderSock.Receive(bytes);
-
                 // Converts byte array to string 
                 String theMessageToReceive = Encoding.Unicode.GetString(bytes, 0, bytesRec);
 
-                // Continues to read the data till data isn't available 
-                while (senderSock.Available > 0)
-                {
-                    bytesRec = senderSock.Receive(bytes);
-                    theMessageToReceive += Encoding.Unicode.GetString(bytes, 0, bytesRec);
-                }
+                //// Continues to read the data till data isn't available 
+                //while (senderSock.Available > 0)
+                //{
+                //    //bytesRec = senderSock.Receive(bytes);
+                //    theMessageToReceive += Encoding.Unicode.GetString(bytes, 0, bytesRec);
+                //}
+
+                //// Disables sends and receives on a Socket. 
+                //senderSock.Shutdown(SocketShutdown.Both);
+
+                ////Closes the Socket connection and releases all resources 
+                //senderSock.Close();
 
                 return "El servidor respondio: " + theMessageToReceive;
             }
@@ -238,7 +241,7 @@ namespace InteropExamples
                 //Closes the Socket connection and releases all resources 
                 senderSock.Close();
 
-                Mensajes.Add("Se cerro la conexión");
+                //Mensajes.Add("Se cerro la conexión");
             }
             catch (Exception) { throw new Exception("Error al desconectar"); }
         }
@@ -259,6 +262,8 @@ namespace InteropExamples
             {
                 this.finalizo(false);
             }
+
+            //Disconnect();
         }
 
 

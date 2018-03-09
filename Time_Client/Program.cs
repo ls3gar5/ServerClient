@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Time_Client
@@ -21,25 +22,6 @@ namespace Time_Client
             Console.ReadLine();
         }
 
-        private static void SendLoop()
-        {
-            while (true)
-            {
-                Console.Write("Enter a request: ");
-                string req = Console.ReadLine();
-                byte[] buffer = Encoding.ASCII.GetBytes(req);
-                _clientSocket.Send(buffer);
-
-                byte[] recievedBuf = new byte[1024];
-                int rec = _clientSocket.Receive(recievedBuf);
-                byte[] data = new byte[rec];
-                Array.Copy(recievedBuf, data, rec);
-
-                Console.WriteLine("Recieved: " + Encoding.ASCII.GetString(data));
-                
-            }
-        }
-
         private static void LoopConnect()
         {
             int attemps = 0;
@@ -49,7 +31,7 @@ namespace Time_Client
                 {
                     attemps++;
 
-                    _clientSocket.Connect(IPAddress.Loopback, 100);
+                    _clientSocket.Connect(IPAddress.Loopback, 804);
                 }
                 catch (Exception ex)
                 {
@@ -59,6 +41,26 @@ namespace Time_Client
 
             Console.Clear();
             Console.WriteLine("Connected");
+        }
+
+        private static void SendLoop()
+        {
+            while (true)
+            {
+                Thread.Sleep(1000);
+                //Console.Write("Enter a request: ");
+                //string req = Console.ReadLine();
+                byte[] buffer = Encoding.Unicode.GetBytes("Get Time");
+                _clientSocket.Send(buffer);
+
+                byte[] recievedBuf = new byte[1024];
+                int rec = _clientSocket.Receive(recievedBuf);
+                byte[] data = new byte[rec];
+                Array.Copy(recievedBuf, data, rec);
+
+                Console.WriteLine("Recieved: " + Encoding.Unicode.GetString(data));
+
+            }
         }
     }
 }

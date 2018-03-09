@@ -122,20 +122,30 @@ namespace ClientFormApp
             catch (Exception exc) { MessageBox.Show(exc.ToString()); }
         }
 
+        Examples client = new Examples();
+
         private void Form1_Load(object sender, EventArgs e)
         {
-            var pp = new Examples();
+           // creates a number between 1 and 12
+            int dice = rnd.Next(1, 7);   // creates a number between 1 and 6
+            int card = rnd.Next(52);
             ///Opciones \\WIN7PROX64\HolistorW
             ///Y:\Whapp (referencia con el nombre de la pc)
             ///Z:\Whapp (referencia con )
-            pp.Path_Server = @"Z:\Whapp";
-            pp.finalizo += Pp_finalizo;
-            pp.RunService();
+            client.Path_Server = @"\\DESA01\";
+            client.finalizo += Pp_finalizo;
+            client.RunService();
         }
 
         private void Pp_finalizo(bool lExito)
         {
-            var pp = "";
+            if (client.Errores.tieneError)
+            {
+                var mensajes = client.Errores.MensajesError;
+            }
+
+            var msg = client.Respuesta.MensajeConexion;
+            var msg2 = client.Respuesta.MensajeServidor;
         }
     }
 }
