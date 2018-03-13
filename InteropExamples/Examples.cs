@@ -7,7 +7,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 
 namespace InteropExamples
 {
@@ -17,6 +17,7 @@ namespace InteropExamples
     [ComSourceInterfaces(typeof(IEventos))]
     public class Examples
     {
+
         public string NumeroSuscriptor { get; set; }
         public string messageJWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ";
         public string Path_Server;
@@ -25,9 +26,9 @@ namespace InteropExamples
         private const string URLASPZERO = "http://192.168.13.78:22742/api/services/app/RelevamientoDIService/SincronizacionRelevamiento";
 
         // Receiving byte array  
-        
+
         Socket senderSock;
-        
+
         const int DEFAULT_PORT = 804;
 
         public Error Errores { get; set; }
@@ -37,6 +38,11 @@ namespace InteropExamples
         public BackgroundWorker oWorkerBurn;
         public delegate void FinalizoHandler(bool lExito);
         public event FinalizoHandler finalizo;
+        public Timer timer;
+        public bool TimerCanceled;
+
+        private CancellationTokenSource _cts;
+
 
         public Examples()
         {
@@ -52,10 +58,17 @@ namespace InteropExamples
 
         }
 
+        private void timerCallBackEvent(object o)
+        {
+            oWorkerBurn.CancelAsync();
+            timer.Dispose();
+        }
+
         private void OWorkerBurn_DoWork(object sender, DoWorkEventArgs e)
         {
             try
             {
+                timer = new Timer(new TimerCallback(timerCallBackEvent), TimerCanceled, 1000, 1000);
                 ConectToServer();
             }
             catch (Exception ex)
@@ -72,6 +85,7 @@ namespace InteropExamples
         {
             try
             {
+                _cts = new CancellationTokenSource();
                 // RESETEAR LA RESPUESTA Y ERRORES!!!!
                 oWorkerBurn.RunWorkerAsync();
                 return true;
@@ -100,9 +114,9 @@ namespace InteropExamples
                 Connet();
                 //3- Envio del mensaje 
                 Send();
-               
+
                 //5- Todo Ok
-                if (Mensajes.Count>0)
+                if (Mensajes.Count > 0)
                 {
                     Respuesta.MensajeConexion = Mensajes.ToArray<string>();
                 }
@@ -213,39 +227,15 @@ namespace InteropExamples
                 // Converts byte array to string 
                 String theMessageToReceive = Encoding.Unicode.GetString(bytes, 0, bytesRec);
 
-                //// Continues to read the data till data isn't available 
-                //while (senderSock.Available > 0)
-                //{
-                //    //bytesRec = senderSock.Receive(bytes);
-                //    theMessageToReceive += Encoding.Unicode.GetString(bytes, 0, bytesRec);
-                //}
-
-                //// Disables sends and receives on a Socket. 
-                //senderSock.Shutdown(SocketShutdown.Both);
-
-                ////Closes the Socket connection and releases all resources 
-                //senderSock.Close();
+               // Disables sends and receives on a Socket. 
+                senderSock.Shutdown(SocketShutdown.Both);
+                //Closes the Socket connection and releases all resources 
+                senderSock.Close();
 
                 return "El servidor respondio: " + theMessageToReceive;
             }
             catch (Exception) { throw new Exception("Error al recibir mensaje del servidor"); }
         }
-
-        private void Disconnect()
-        {
-            try
-            {
-                // Disables sends and receives on a Socket. 
-                senderSock.Shutdown(SocketShutdown.Both);
-
-                //Closes the Socket connection and releases all resources 
-                senderSock.Close();
-
-                //Mensajes.Add("Se cerro la conexión");
-            }
-            catch (Exception) { throw new Exception("Error al desconectar"); }
-        }
-
 
         private void OWorkerBurn_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
@@ -262,11 +252,7 @@ namespace InteropExamples
             {
                 this.finalizo(false);
             }
-
-            //Disconnect();
         }
-
-
 
         public bool ValidarConexion()
         {
@@ -303,10 +289,10 @@ namespace InteropExamples
                 // Establishes a connection to a remote host 
                 senderSock.Connect(ipEndPoint);
                 // Disables sends and receives on a Socket. 
-               senderSock.Shutdown(SocketShutdown.Both);
+                senderSock.Shutdown(SocketShutdown.Both);
                 //Closes the Socket connection and releases all resources 
                 senderSock.Close();
-                
+
                 return true;
             }
             catch (Exception)

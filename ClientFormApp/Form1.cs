@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
+﻿using InteropExamples;
+using System;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using InteropExamples;
 
 namespace ClientFormApp
 {
@@ -21,6 +16,7 @@ namespace ClientFormApp
         const string DEFAULT_SERVER = "localhost";
         const int DEFAULT_PORT = 804;
         string messageJWT = "";
+
 
         public Form1()
         {
@@ -122,19 +118,11 @@ namespace ClientFormApp
             catch (Exception exc) { MessageBox.Show(exc.ToString()); }
         }
 
-        Examples client = new Examples();
+        Examples client;
 
         private void Form1_Load(object sender, EventArgs e)
         {
-           // creates a number between 1 and 12
-            int dice = rnd.Next(1, 7);   // creates a number between 1 and 6
-            int card = rnd.Next(52);
-            ///Opciones \\WIN7PROX64\HolistorW
-            ///Y:\Whapp (referencia con el nombre de la pc)
-            ///Z:\Whapp (referencia con )
-            client.Path_Server = @"\\DESA01\";
-            client.finalizo += Pp_finalizo;
-            client.RunService();
+
         }
 
         private void Pp_finalizo(bool lExito)
@@ -144,8 +132,23 @@ namespace ClientFormApp
                 var mensajes = client.Errores.MensajesError;
             }
 
-            var msg = client.Respuesta.MensajeConexion;
-            var msg2 = client.Respuesta.MensajeServidor;
+            this.txtMessage.Text= client.Respuesta.MensajeConexion.First();
+            this.txtMsgRecividoServidor.Text=  client.Respuesta.MensajeServidor;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                client = new Examples();
+                client.Path_Server = @"C:\";
+                client.finalizo += Pp_finalizo;
+                client.RunService();
+            }
+            catch (Exception ex)
+            {
+                this.txtMessage.Text = ex.Message;
+            }
         }
     }
 }

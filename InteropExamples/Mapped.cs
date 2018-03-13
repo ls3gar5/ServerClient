@@ -28,6 +28,13 @@ namespace InteropExamples
                 char c = originalPath[0];
                 if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
                 {
+                    var listaUnidaddesLocales = DriveInfo.GetDrives();
+
+                    if (listaUnidaddesLocales.Any(a => a.Name.Substring(0,1) == c.ToString()))
+                    {
+                        return "";
+                    }
+
                     //Uso de API para ver las unidad de red
                     WNetGetConnection(originalPath.Substring(0, 2), sb, ref size);
 
